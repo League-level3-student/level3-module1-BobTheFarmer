@@ -15,7 +15,41 @@ public class LongChipCompetition {
 
     public static void main(String[] args) {
         LongChipCompetition lcc = new LongChipCompetition();
-
+        lcc.initializeBeatles();
+        lcc.findLongestChip();
+    }
+    
+    void findLongestChip() { 
+    	double chipRecord = -1;
+    	boolean tie = false;
+    	int winnerIndex = 0;
+    	int winnerChipIndex = 0;
+    	for (int i = 0; i < theBeatles.size(); i++) {
+    		//Check if has longest chip
+    		for (int j = 0; j < theBeatles.get(i).getChips().size(); j++) {
+				Chip chip = theBeatles.get(i).getChips().get(j);
+							
+					if(chip.getLength() < chipRecord) {
+						//Not a record
+					} else if(chip.getLength() > chipRecord) {
+						//Record
+						System.out.println("New record by " + theBeatles.get(i).getName() + "; " + chip.getLength());
+						winnerIndex = i;
+						winnerChipIndex = j;
+						chipRecord = chip.getLength();
+					} else {
+						//Tie
+						tie = true;
+					}
+			}
+    		
+    			
+		}
+    	System.out.println("");
+		System.out.println(theBeatles.get(winnerIndex).getName() + " won with a " + theBeatles.get(winnerIndex).getChips().get(winnerChipIndex).getLength() + " length chip");
+		if(tie) { 
+			System.out.print(", there was a tie");
+		}                                           
     }
 
     private void initializeBeatles() {
@@ -41,10 +75,12 @@ class Beatle {
     public Beatle(String name) {
         this.name = name;
         initializePlateOfChips();
+        System.out.println("Beatle Complete");
     }
 
     private void initializePlateOfChips() {
-        int numberOfChips = new Random().nextInt(100);
+        int numberOfChips = 10000000;
+        		//new Random().nextInt(100);
         for (int i = 0; i < numberOfChips; i++) {
             chips.add(new Chip(new Random().nextDouble() * 10));
         }
