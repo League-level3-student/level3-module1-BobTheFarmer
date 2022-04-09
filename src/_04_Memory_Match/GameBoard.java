@@ -1,6 +1,7 @@
 package _04_Memory_Match;
 
 import java.awt.Dimension;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class GameBoard extends JFrame implements ActionListener {
     static Card secondSelectedCard = null;
     
     // 1. Initialize TOTAL_CARDS to 2;
-    static int TOTAL_CARDS = 0;
+    static int TOTAL_CARDS = 52;
     
     ArrayList<Card> cards;
     
@@ -36,6 +37,9 @@ public class GameBoard extends JFrame implements ActionListener {
         gameClock = new Timer(1000, this);
         updateTimer = new Timer(750, this);
         
+        //Use for card values
+        	int[] cardValues = new int[] {2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14}; 
+        	System.out.println(cardValues.length);
         // Can't play the game if there isn't an even number of cards
         if( TOTAL_CARDS % 2 != 0) {
             System.out.println("ERROR: Odd number of total cards, " + TOTAL_CARDS);
@@ -49,7 +53,7 @@ public class GameBoard extends JFrame implements ActionListener {
         //    Also, add action listeners to each Card object and then add each
         //    of the Card objects to the ArrayList of Cards.
         for (int i = 0; i<TOTAL_CARDS; i++) {
-			Card card = new Card(1);
+			Card card = new Card(cardValues[i]);
 			card.addActionListener(this);
 			cards.add(card);
 		}
@@ -76,7 +80,10 @@ public class GameBoard extends JFrame implements ActionListener {
     // 9. Fill in the drawCards method to draw all the cards in the ArrayList.
     //    Run your code and verify 2 cards are displayed and the game works.
     public void drawCards() {
-    	//WORKING ON THIS, figure out how to do step 9
+    	for (int i = 0; i < cards.size(); i++) {
+    		Card card = cards.get(i);
+    		card.draw();
+		}
     }
     
     // 10. 
@@ -88,7 +95,7 @@ public class GameBoard extends JFrame implements ActionListener {
     // of each card, meaning x4 2s, x4 3s, x4 Jacks, ... one of each suit.
     // You can use Jacks=11, Queens=12, Kings=12, Aces=13
     // 
-    // EXTRA: You can use real card faces images instead of numbers by using
+    // EXTRA: You can use real card fahttps://github.com/League-level3-student/level3-module1-BobTheFarmer.gitces images instead of numbers by using
     // the images in the CardImages folder and the setFaceUpIcon() method.
     // Example:
     // card.setFaceUpIcon(Card.cardImagesPath + (i+1) + ".png");
