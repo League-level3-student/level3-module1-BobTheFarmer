@@ -1,5 +1,9 @@
 package _05_Retro_Sun;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import _04_Memory_Match.Card;
 import processing.core.PApplet;
 
 /*
@@ -26,11 +30,30 @@ public class RetroSun extends PApplet {
         // 1. Set the size of your sketch to at least 800 width, 600 height
         	size(800, 600);
     }
-
+    
+    final int SUNSIZE = 425;
+    int[][] blackRects;
+    
+    int yMoveCooldown = 0;
+    int hMoveCooldown = 0;
+    
+    Random rando = new Random();
+    
     @Override
     public void setup() {
         // 2. Set bgColor as the background color
-        	background(bgColor);	
+        	background(bgColor);
+        	
+        	
+        //Rects for spaces
+        	blackRects = new int[4][5];
+        	//x, y, w, h
+        	for (int i = 0; i < blackRects.length; i++) {
+        		blackRects[0][i] = 0;
+        		blackRects[2][i] = width;
+        		blackRects[3][i] = 100+(75*i);
+        		blackRects[1][i] = (height+(75*i));
+			}
     }
 
     @Override
@@ -38,7 +61,7 @@ public class RetroSun extends PApplet {
         /*
          * PART 1: Drawing the sun
          */
-    	int SUNSIZE = 425;
+    	
         // Draw an ellipse for the sun in the center of the window
         // Use fill(sunColors[0]) to make it yellow
         // Use noStroke() to remove the black outline
@@ -96,12 +119,8 @@ public class RetroSun extends PApplet {
 
         // Call updatePixels() after your loop through all the pixels to
         // update the pixel colors
-        // https://processing.org/reference/updatePixels_.html
-
-        //WORKING ON THIS, Ignore the outline too hard to fix, start work on part 3
+        // https://processing.org/reference/updatePixels_.html    	
     	
-    	
-    	fhdioafhiods
     	
         /*
          * PART 3: Drawing the missing sections at the bottom of the sun
@@ -123,7 +142,9 @@ public class RetroSun extends PApplet {
         //  float w = 2 * sunRadius
         
         // Do you see a section missing from the sun like in the 3rd image?
-
+    	
+      
+        
         
         /*
          * PART 4: Moving the missing sun sections
@@ -137,7 +158,7 @@ public class RetroSun extends PApplet {
         // draw function AND initialize it in the setup() function.
 
         // Do you see the rectangle moving upwards?
-
+       
         // Pick a y positon to be the location when the sections stop moving up.
         // If the rectangle's y positon is above this, move the rectangle's
         // y position back to the bottom of the sun.
@@ -166,8 +187,42 @@ public class RetroSun extends PApplet {
         // code you wrote for the 1 missing sun section.
         // HINT: You can use the Rectangle class defined below to create
         // a list of Rectangles.
-
+    	
+    	//Steps 4+5
+    		
+    	
+    		for (int i = 0; i < blackRects.length; i++) {
+				int x = blackRects[0][i];
+				int y = blackRects[1][i];
+				int w = blackRects[2][i];
+				int h = blackRects[3][i];
+				
+				fill(bgColor);
+				rect(x, y, w, h);
+				
+				
+        		
+				if(h<0) {
+					blackRects[1][i] = (height+(150*i));
+					blackRects[3][i] = 300+(150*i)/48;
+				}
+				
+				if(yMoveCooldown <=0) {
+					blackRects[1][i]--; //y
+					yMoveCooldown=2;
+				}
+				
+				if(hMoveCooldown <=0) {
+					blackRects[3][i]--; //h
+					hMoveCooldown=4;
+				}
+				
+				yMoveCooldown--;
+				hMoveCooldown--;
+				
+			}
         
+    		//System.out.println("H1: " + blackRects[3][0] + ", Y1: " + blackRects[1][0]);
         /*
          * PART 6: Adding extras
          *
