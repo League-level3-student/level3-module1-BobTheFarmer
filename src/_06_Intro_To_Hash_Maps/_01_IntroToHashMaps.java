@@ -10,7 +10,6 @@ public class _01_IntroToHashMaps {
         //    current iteration of the loop (i). The value entry will be the square root of i.
     			for (int i = 0; i < 501; i++) {
 					roots.put(i, Math.sqrt(i));
-					
 				}
         // 3. Iterate through all the entries in your HashMap displaying the keys with their respective
         //    square roots (values). Use the following format.
