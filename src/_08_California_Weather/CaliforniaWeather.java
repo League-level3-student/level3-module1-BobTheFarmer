@@ -1,6 +1,7 @@
 package _08_California_Weather;
 
 import java.awt.Dimension;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /*
  * String cityName = Utilities.capitalizeWords( "National City" );
@@ -65,7 +67,7 @@ public class CaliforniaWeather implements ActionListener {
         		frame.add(panel);
         		frame.setVisible(true);
         		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        		panel.setPreferredSize(new Dimension(180*3+40+300, 90));
+        		panel.setPreferredSize(new Dimension(180*3+40, 90+700));
         		
         		searchByCity = new JButton("Search By City");
         		searchByWeather = new JButton("Search By Weather");
@@ -89,7 +91,9 @@ public class CaliforniaWeather implements ActionListener {
         		panel.add(searchBar);
         		
         		searchResults = new JLabel();
-        		searchResults.setPreferredSize(new Dimension(180*3+10, 300));
+        		searchResults.setPreferredSize(new Dimension(180*3+10, 700));
+        		searchResults.setHorizontalAlignment(SwingConstants.LEFT);
+        		searchResults.setVerticalAlignment(SwingConstants.TOP);
         		panel.add(searchResults);
         		
         		frame.pack();
@@ -99,22 +103,38 @@ public class CaliforniaWeather implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton sourse = (JButton) e.getSource();
 		String searchTerm = searchBar.getText();
-		String searchReasultString = "";
+		String searchReasultString = "<html>";
 		
 		//Search by city
 		if(sourse == searchByCity) {
 			for(String city: weatherData.keySet()) {
 				if(city.contains(searchTerm)) {
-					searchReasultString+="-" + city + ": " + weatherData.get(city) + "\n";
+					searchReasultString+="-" + city + ": " + weatherData.get(city).weatherSummary + " at " + weatherData.get(city).temperatureF+ " degrees fahrenheit <br>";
 				}
  			}
 		}
 		
 		//Search by weather
-		//WORKING ON THIS, fix result display, add all search functions
+		if(sourse == searchByWeather) {
+			for(String city: weatherData.keySet()) {
+				if(weatherData.get(city).weatherSummary.contains(searchTerm)) {
+					searchReasultString+="-" + city + ": " + weatherData.get(city).weatherSummary + " at " + weatherData.get(city).temperatureF+ " degrees fahrenheit <br>";
+				}
+ 			}
+		}
+		//Search by weather
+				if(sourse == searchByTemp) {
+					for(String city: weatherData.keySet()) {
+						if(String.valueOf(weatherData.get(city).temperatureF).contains(searchTerm)) {
+							searchReasultString+="-" + city + ": " + weatherData.get(city).weatherSummary + " at " + weatherData.get(city).temperatureF+ " degrees fahrenheit <br>";
+						}
+		 			}
+				}
+		
+		
 		//Display Result
+			searchReasultString+="</html>";
 			searchResults.removeAll();
 			searchResults.setText(searchReasultString);
-			
 	}
 }

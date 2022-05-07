@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
+//WORKING ON THIS; STEAL CODE FROM THIS MEATHOD AND PUT INTO CITY CLASS, use city class to return each text field to the action preformed
+
 /*
  * You task is to create a java program that:
  * 1. Displays the time for multiple cities around the world on one display.
@@ -35,32 +37,15 @@ import javax.swing.Timer;
  */
 
 public class WorldClocks implements ActionListener {
-    ClockUtilities clockUtil;
     Timer timer;
-    TimeZone timeZone;
 
     JFrame frame;
     JPanel panel;
     JTextArea textArea;
     
-    String city;
-    String dateStr;
-    String timeStr;
     
     public WorldClocks() {
-        clockUtil = new ClockUtilities();
-
-        // The format for the city must be: city, country (all caps)
-        city = "Chicago, US";
-        timeZone = clockUtil.getTimeZoneFromCityName(city);
         
-        Calendar calendar = Calendar.getInstance(timeZone);
-        String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-        String dayOfWeek = calendar.getDisplayName( Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-        dateStr = dayOfWeek + " " + month + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.YEAR);
-        
-        System.out.println(dateStr);
-
         // Sample starter program
         frame = new JFrame();
         panel = new JPanel();
