@@ -14,11 +14,11 @@ public class City {
     String dateStr;
     String timeStr;
     
-	void setup() {
+	String setup(String cityName) {
 		clockUtil = new ClockUtilities();
 
         // The format for the city must be: city, country (all caps)
-        city = "Chicago, US";
+        city = cityName;
         timeZone = clockUtil.getTimeZoneFromCityName(city);
         
         Calendar calendar = Calendar.getInstance(timeZone);
@@ -27,8 +27,16 @@ public class City {
         dateStr = dayOfWeek + " " + month + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.YEAR);
         
         System.out.println(dateStr);
-        textArea.setText(city + "\n" + dateStr);
+       return city + "\n" + dateStr;
 	}
 	
-	TextBox 
+	String getTimePerCity() {
+		Calendar c = Calendar.getInstance(timeZone);
+        String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
+        String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + "]";
+        timeStr = militaryTime + twelveHourTime;
+        
+        System.out.println(timeStr);
+     return city + "\n" + dateStr + "\n" + timeStr;  
+	}
 }

@@ -1,17 +1,20 @@
 package _09_World_Clocks;
 
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
-
-//WORKING ON THIS; STEAL CODE FROM THIS MEATHOD AND PUT INTO CITY CLASS, use city class to return each text field to the action preformed
 
 /*
  * You task is to create a java program that:
@@ -38,15 +41,19 @@ import javax.swing.Timer;
 
 public class WorldClocks implements ActionListener {
     Timer timer;
-
+    
     JFrame frame;
     JPanel panel;
     JTextArea textArea;
+    City city;
+    JButton addCity;
+    HashMap<JTextArea, City> citys = new HashMap<JTextArea, City>();
+    ClockUtilities clockUtil;
     
-    
-    public WorldClocks() {
-        
-        // Sample starter program
+   void worldClocks() {
+    		city = new City();
+    	
+        //Setup UI + Clock util
         frame = new JFrame();
         panel = new JPanel();
         textArea = new JTextArea();
@@ -54,8 +61,17 @@ public class WorldClocks implements ActionListener {
         frame.setVisible(true);
         frame.setSize(100, 100);
         frame.add(panel);
+        
+        addCity = new JButton("Add City");
+        addCity.addActionListener(this);
+        panel.add(addCity);
+        
+        
+        
+        clockUtil = new ClockUtilities();
+        
+        textArea.setText(city.setup("Chicago, US"));
         panel.add(textArea);
-        textArea.setText(city + "\n" + dateStr);
         
         // This Timer object is set to call the actionPerformed() method every
         // 1000 milliseconds
@@ -65,13 +81,19 @@ public class WorldClocks implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        Calendar c = Calendar.getInstance(timeZone);
-        String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
-        String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + "]";
-        timeStr = militaryTime + twelveHourTime;
-        
-        System.out.println(timeStr);
-        textArea.setText(city + "\n" + dateStr + "\n" + timeStr);
+    		if(arg0.getSource() == timer) {
+    			for (JTextArea i : citys.keySet()) {
+    					i.setText(citys.get(i).getTimePerCity());
+				}
+        textArea.setText(city.getTimePerCity());
         frame.pack();
+    		} else {
+    			City city = new City();
+    			JTextArea text = new JTextArea();
+    			String cityName = JOptionPane.showInputDialog("What city would would you like to add?");
+    			text.setText(city.setup(cityName));
+    			citys.put(text, city);    	
+    	        panel.add(text);
+    		}
     }
 }
